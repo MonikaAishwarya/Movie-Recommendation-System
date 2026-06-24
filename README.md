@@ -195,7 +195,6 @@ Movie-Recommendation-System/
 │   ├── recommedation_output_2.png
 │   ├── recommedation_output_3.png
 │   ├── recommedation_output_4.png
-│   ├── recommedation_output_5.png
 │   ├── input.png
 │   └── output.png
 │

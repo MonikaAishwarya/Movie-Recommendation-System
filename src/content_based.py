@@ -26,9 +26,15 @@ similarity = cosine_similarity(
 
 # Map movie titles to dataframe indices
 movie_indices = pd.Series(
-    movies.index,
+    movies.index.values,
     index=movies["title"].str.lower()
-).drop_duplicates()
+)
+
+movie_indices = movie_indices[
+    ~movie_indices.index.duplicated(
+        keep="first"
+    )
+]
 
 
 def recommend_with_scores(
@@ -45,6 +51,10 @@ def recommend_with_scores(
         return []
 
     movie_idx = movie_indices[movie_name]
+
+    # Handle duplicate movie titles
+    if isinstance(movie_idx, pd.Series):
+        movie_idx = movie_idx.iloc[0]
 
     similarity_scores = list(
         enumerate(
