@@ -38,23 +38,23 @@ The hybrid approach improves recommendation quality by combining movie similarit
 
 ### Recommendation Output - Part 1
 
-![Recommendation Output 1](screenshots/recommedation_output_1.png)
+![Recommendation Output 1](screenshots/recommendation_output_1.png)
 
 ### Recommendation Output - Part 2
 
-![Recommendation Output 2](screenshots/recommedation_output_2.png)
+![Recommendation Output 2](screenshots/recommendation_output_2.png)
 
 ### Recommendation Output - Part 3
 
-![Recommendation Output 3](screenshots/recommedation_output_3.png)
+![Recommendation Output 3](screenshots/recommendation_output_3.png)
 
 ### Recommendation Output - Part 4
 
-![Recommendation Output 4](screenshots/recommedation_output_4.png)
+![Recommendation Output 4](screenshots/recommendation_output_4.png)
 
 ### Recommendation Output - Part 5
 
-![Recommendation Output 5](screenshots/recommedation_output_5.png)
+![Recommendation Output 5](screenshots/recommendation_output_5.png)
 
 ### Terminal Input Example
 
