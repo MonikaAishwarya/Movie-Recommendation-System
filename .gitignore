@@ -1,6 +1,16 @@
+# Virtual Environment
 venv/
+
+# Python Cache Files
 __pycache__/
 *.pyc
-outputs/*.pkl
-.idea/
-.vscode/
+
+# Generated Output Files
+outputs/*.csv
+
+# Jupyter Files (optional)
+.ipynb_checkpoints/
+
+# OS Files
+.DS_Store
+Thumbs.db
