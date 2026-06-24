@@ -12,16 +12,28 @@ The hybrid approach improves recommendation quality by combining movie similarit
 
 ## 🚀 Features
 
-* Content-Based Movie Recommendations
-* Collaborative Filtering using KNN
-* Hybrid Recommendation Engine
-* TF-IDF Vectorization
-* Cosine Similarity Calculation
-* Genre Preference Boosting
-* Multiple Favorite Movie Inputs
-* Personalized Movie Suggestions
-* Movie Metadata Processing
-* User-Based Recommendation Generation
+- Content-Based Movie Recommendations
+- Collaborative Filtering using KNN
+- Hybrid Recommendation Engine
+- TF-IDF Vectorization
+- Cosine Similarity Calculation
+- Genre Preference Boosting
+- Multiple Favorite Movie Inputs
+- Personalized Movie Suggestions
+- Movie Metadata Processing
+- User-Based Recommendation Generation
+
+---
+
+## 📸 Project Demo
+
+### User Input
+
+![Input Screenshot](screenshots/input.png)
+
+### Recommendation Output
+
+![Output Screenshot](screenshots/output.png)
 
 ---
 
@@ -33,17 +45,17 @@ Used for Content-Based Filtering.
 
 Files:
 
-* tmdb_5000_movies.csv
-* tmdb_5000_credits.csv
+- tmdb_5000_movies.csv
+- tmdb_5000_credits.csv
 
 Contains:
 
-* Movie Titles
-* Genres
-* Keywords
-* Overview
-* Cast Information
-* Director Information
+- Movie Titles
+- Genres
+- Keywords
+- Overview
+- Cast Information
+- Director Information
 
 ### MovieLens Dataset
 
@@ -51,14 +63,14 @@ Used for Collaborative Filtering.
 
 Files:
 
-* movies.csv
-* ratings.csv
+- movies.csv
+- ratings.csv
 
 Contains:
 
-* User Ratings
-* Movie Information
-* User-Movie Interactions
+- User Ratings
+- Movie Information
+- User-Movie Interactions
 
 ---
 
@@ -70,12 +82,11 @@ The Content-Based Recommendation module recommends movies similar to the user's 
 
 1. Merge TMDB Movies and Credits datasets.
 2. Extract:
-
-   * Genres
-   * Keywords
-   * Top Cast Members
-   * Director
-   * Movie Overview
+   - Genres
+   - Keywords
+   - Top Cast Members
+   - Director
+   - Movie Overview
 3. Create a combined Tags feature.
 4. Apply TF-IDF Vectorization on movie tags.
 5. Calculate Cosine Similarity between movies.
@@ -83,10 +94,10 @@ The Content-Based Recommendation module recommends movies similar to the user's 
 
 ### Technologies Used
 
-* Pandas
-* Scikit-learn
-* TF-IDF Vectorizer
-* Cosine Similarity
+- Pandas
+- Scikit-learn
+- TF-IDF Vectorizer
+- Cosine Similarity
 
 ---
 
@@ -105,9 +116,9 @@ The Collaborative Filtering module recommends movies based on similar users' pre
 
 ### Technologies Used
 
-* Pandas
-* Scikit-learn
-* Nearest Neighbors (KNN)
+- Pandas
+- Scikit-learn
+- Nearest Neighbors (KNN)
 
 ---
 
@@ -126,10 +137,10 @@ The Hybrid Recommendation System combines the strengths of Content-Based and Col
 
 ### Advantages
 
-* Better personalization
-* Reduced cold-start limitations
-* Improved recommendation accuracy
-* More diverse movie suggestions
+- Better Personalization
+- Reduced Cold-Start Limitations
+- Improved Recommendation Accuracy
+- More Diverse Movie Suggestions
 
 ---
 
@@ -147,6 +158,10 @@ Movie-Recommendation-System/
 │
 ├── outputs/
 │   └── processed_movies.csv
+│
+├── screenshots/
+│   ├── input.png
+│   └── output.png
 │
 ├── src/
 │   ├── __init__.py
@@ -168,7 +183,7 @@ Movie-Recommendation-System/
 ### Clone Repository
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/MonikaAishwarya/Movie-Recommendation-System.git
 cd Movie-Recommendation-System
 ```
 
@@ -214,7 +229,9 @@ python src/data_preprocessing.py
 python main.py
 ```
 
-### Example Input
+---
+
+## 📈 Example Input
 
 ```text
 Favorite Movies:
@@ -226,80 +243,70 @@ Action, Science Fiction
 
 ---
 
-## 📈 Sample Output
+## 📈 Example Output
 
 ```text
-============================================================
-HYBRID MOVIE RECOMMENDATION SYSTEM
-============================================================
-
-Enter your top favorite movies (comma separated):
-Avatar, Interstellar, The Dark Knight
-
-Enter preferred genres (comma separated):
-Action, Science Fiction
-
 ============================================================
 TOP PERSONALIZED RECOMMENDATIONS
 ============================================================
 
-1. The Dark Knight Rises
-2. Batman Returns
-3. Batman
-4. Batman Begins
-5. Moonraker
-6. Batman Forever
-7. Batman: The Dark Knight Returns, Part 2
-8. Batman v Superman: Dawn of Justice
-9. Galaxina
-10. Batman & Robin
+1. The Dark Knight Rises (Score: 0.506)
+2. Batman Returns (Score: 0.433)
+3. Batman (Score: 0.418)
+4. Batman Begins (Score: 0.416)
+5. Moonraker (Score: 0.356)
+6. Batman Forever (Score: 0.353)
+7. Batman: The Dark Knight Returns, Part 2 (Score: 0.342)
+8. Batman v Superman: Dawn of Justice (Score: 0.304)
+9. Galaxina (Score: 0.295)
+10. Batman & Robin (Score: 0.281)
 ```
 
 ---
 
 ## 🛠️ Technologies Used
 
-* Python
-* Pandas
-* NumPy
-* Scikit-learn
-* TF-IDF Vectorizer
-* Cosine Similarity
-* K-Nearest Neighbors (KNN)
+- Python
+- Pandas
+- NumPy
+- Scikit-learn
+- TF-IDF Vectorizer
+- Cosine Similarity
+- K-Nearest Neighbors (KNN)
 
 ---
 
 ## 📚 Key Concepts Implemented
 
-* Recommendation Systems
-* Content-Based Filtering
-* Collaborative Filtering
-* Hybrid Recommendation Systems
-* Natural Language Processing (NLP)
-* Feature Engineering
-* TF-IDF
-* Cosine Similarity
-* KNN Algorithms
-* Data Preprocessing
+- Recommendation Systems
+- Content-Based Filtering
+- Collaborative Filtering
+- Hybrid Recommendation Systems
+- Natural Language Processing (NLP)
+- Feature Engineering
+- TF-IDF
+- Cosine Similarity
+- KNN Algorithms
+- Data Preprocessing
 
 ---
 
 ## 🔮 Future Improvements
 
-* Movie Poster Integration using TMDB API
-* Streamlit Web Application
-* Fuzzy Movie Search
-* User Authentication System
-* Recommendation Evaluation Metrics (RMSE, MAE)
-* Deep Learning-Based Recommendations
-* Real-Time Recommendation Updates
-* Movie Popularity Ranking
-* Interactive User Interface
+- Movie Poster Integration using TMDB API
+- Streamlit Web Application
+- Fuzzy Movie Search
+- User Authentication System
+- Recommendation Evaluation Metrics (RMSE, MAE)
+- Deep Learning-Based Recommendations
+- Real-Time Recommendation Updates
+- Movie Popularity Ranking
+- Interactive User Interface
 
 ---
 
 ## 👩‍💻 Author
 
-VEGESNA MONIKA AISHWARYA
+**VEGESNA MONIKA AISHWARYA**
 
 Developed as a Machine Learning and Recommendation Systems project using Python and Scikit-learn.
