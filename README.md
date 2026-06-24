@@ -12,28 +12,57 @@ The hybrid approach improves recommendation quality by combining movie similarit
 
 ## 🚀 Features
 
-- Content-Based Movie Recommendations
-- Collaborative Filtering using KNN
-- Hybrid Recommendation Engine
-- TF-IDF Vectorization
-- Cosine Similarity Calculation
-- Genre Preference Boosting
-- Multiple Favorite Movie Inputs
-- Personalized Movie Suggestions
-- Movie Metadata Processing
-- User-Based Recommendation Generation
+* Content-Based Movie Recommendations
+* Collaborative Filtering using KNN
+* Hybrid Recommendation Engine
+* TF-IDF Vectorization
+* Cosine Similarity Calculation
+* Genre Preference Boosting
+* Multiple Favorite Movie Inputs
+* Personalized Movie Suggestions
+* Movie Metadata Processing
+* User-Based Recommendation Generation
+* Streamlit Web Application Interface
 
 ---
 
-## 📸 Project Demo
+## 📸 Application Screenshots
+
+### Home Page
+
+![Home Page](screenshots/app_home_page.png)
 
 ### User Input
 
-![Input Screenshot](screenshots/input.png)
+![User Input](screenshots/recommendation_input.png)
 
-### Recommendation Output
+### Recommendation Output - Part 1
 
-![Output Screenshot](screenshots/output.png)
+![Recommendation Output 1](screenshots/recommedation_output_1.png)
+
+### Recommendation Output - Part 2
+
+![Recommendation Output 2](screenshots/recommedation_output_2.png)
+
+### Recommendation Output - Part 3
+
+![Recommendation Output 3](screenshots/recommedation_output_3.png)
+
+### Recommendation Output - Part 4
+
+![Recommendation Output 4](screenshots/recommedation_output_4.png)
+
+### Recommendation Output - Part 5
+
+![Recommendation Output 5](screenshots/recommedation_output_5.png)
+
+### Terminal Input Example
+
+![Terminal Input](screenshots/input.png)
+
+### Terminal Output Example
+
+![Terminal Output](screenshots/output.png)
 
 ---
 
@@ -45,17 +74,17 @@ Used for Content-Based Filtering.
 
 Files:
 
-- tmdb_5000_movies.csv
-- tmdb_5000_credits.csv
+* tmdb_5000_movies.csv
+* tmdb_5000_credits.csv
 
 Contains:
 
-- Movie Titles
-- Genres
-- Keywords
-- Overview
-- Cast Information
-- Director Information
+* Movie Titles
+* Genres
+* Keywords
+* Overview
+* Cast Information
+* Director Information
 
 ### MovieLens Dataset
 
@@ -63,14 +92,14 @@ Used for Collaborative Filtering.
 
 Files:
 
-- movies.csv
-- ratings.csv
+* movies.csv
+* ratings.csv
 
 Contains:
 
-- User Ratings
-- Movie Information
-- User-Movie Interactions
+* User Ratings
+* Movie Information
+* User-Movie Interactions
 
 ---
 
@@ -82,11 +111,12 @@ The Content-Based Recommendation module recommends movies similar to the user's 
 
 1. Merge TMDB Movies and Credits datasets.
 2. Extract:
-   - Genres
-   - Keywords
-   - Top Cast Members
-   - Director
-   - Movie Overview
+
+   * Genres
+   * Keywords
+   * Top Cast Members
+   * Director
+   * Movie Overview
 3. Create a combined Tags feature.
 4. Apply TF-IDF Vectorization on movie tags.
 5. Calculate Cosine Similarity between movies.
@@ -94,10 +124,10 @@ The Content-Based Recommendation module recommends movies similar to the user's 
 
 ### Technologies Used
 
-- Pandas
-- Scikit-learn
-- TF-IDF Vectorizer
-- Cosine Similarity
+* Pandas
+* Scikit-learn
+* TF-IDF Vectorizer
+* Cosine Similarity
 
 ---
 
@@ -116,9 +146,9 @@ The Collaborative Filtering module recommends movies based on similar users' pre
 
 ### Technologies Used
 
-- Pandas
-- Scikit-learn
-- Nearest Neighbors (KNN)
+* Pandas
+* Scikit-learn
+* Nearest Neighbors (KNN)
 
 ---
 
@@ -137,10 +167,10 @@ The Hybrid Recommendation System combines the strengths of Content-Based and Col
 
 ### Advantages
 
-- Better Personalization
-- Reduced Cold-Start Limitations
-- Improved Recommendation Accuracy
-- More Diverse Movie Suggestions
+* Better Personalization
+* Reduced Cold-Start Limitations
+* Improved Recommendation Accuracy
+* More Diverse Movie Suggestions
 
 ---
 
@@ -154,12 +184,18 @@ Movie-Recommendation-System/
 │   ├── tmdb_5000_credits.csv
 │   ├── movies.csv
 │   ├── ratings.csv
-│   └── tags.csv
 │
 ├── outputs/
 │   └── processed_movies.csv
 │
 ├── screenshots/
+│   ├── app_home_page.png
+│   ├── recommendation_input.png
+│   ├── recommedation_output_1.png
+│   ├── recommedation_output_2.png
+│   ├── recommedation_output_3.png
+│   ├── recommedation_output_4.png
+│   ├── recommedation_output_5.png
 │   ├── input.png
 │   └── output.png
 │
@@ -170,6 +206,7 @@ Movie-Recommendation-System/
 │   ├── collaborative_filtering.py
 │   └── hybrid_recommender.py
 │
+├── app.py
 ├── main.py
 ├── requirements.txt
 ├── README.md
@@ -223,10 +260,16 @@ pip install -r requirements.txt
 python src/data_preprocessing.py
 ```
 
-### Step 2: Run Recommendation System
+### Step 2: Run Command-Line Application
 
 ```bash
 python main.py
+```
+
+### Step 3: Run Streamlit Web Application
+
+```bash
+streamlit run app.py
 ```
 
 ---
@@ -246,62 +289,61 @@ Action, Science Fiction
 ## 📈 Example Output
 
 ```text
-============================================================
 TOP PERSONALIZED RECOMMENDATIONS
-============================================================
 
-1. The Dark Knight Rises (Score: 0.506)
-2. Batman Returns (Score: 0.433)
-3. Batman (Score: 0.418)
-4. Batman Begins (Score: 0.416)
-5. Moonraker (Score: 0.356)
-6. Batman Forever (Score: 0.353)
-7. Batman: The Dark Knight Returns, Part 2 (Score: 0.342)
-8. Batman v Superman: Dawn of Justice (Score: 0.304)
-9. Galaxina (Score: 0.295)
-10. Batman & Robin (Score: 0.281)
+1. The Dark Knight Rises
+2. Batman Returns
+3. Batman
+4. Batman Begins
+5. Moonraker
+6. Batman Forever
+7. Batman: The Dark Knight Returns, Part 2
+8. Batman v Superman: Dawn of Justice
+9. Galaxina
+10. Batman & Robin
 ```
 
 ---
 
 ## 🛠️ Technologies Used
 
-- Python
-- Pandas
-- NumPy
-- Scikit-learn
-- TF-IDF Vectorizer
-- Cosine Similarity
-- K-Nearest Neighbors (KNN)
+* Python
+* Pandas
+* NumPy
+* Scikit-learn
+* Streamlit
+* TF-IDF Vectorizer
+* Cosine Similarity
+* K-Nearest Neighbors (KNN)
 
 ---
 
 ## 📚 Key Concepts Implemented
 
-- Recommendation Systems
-- Content-Based Filtering
-- Collaborative Filtering
-- Hybrid Recommendation Systems
-- Natural Language Processing (NLP)
-- Feature Engineering
-- TF-IDF
-- Cosine Similarity
-- KNN Algorithms
-- Data Preprocessing
+* Recommendation Systems
+* Content-Based Filtering
+* Collaborative Filtering
+* Hybrid Recommendation Systems
+* Natural Language Processing (NLP)
+* Feature Engineering
+* TF-IDF
+* Cosine Similarity
+* KNN Algorithms
+* Data Preprocessing
 
 ---
 
 ## 🔮 Future Improvements
 
-- Movie Poster Integration using TMDB API
-- Streamlit Web Application
-- Fuzzy Movie Search
-- User Authentication System
-- Recommendation Evaluation Metrics (RMSE, MAE)
-- Deep Learning-Based Recommendations
-- Real-Time Recommendation Updates
-- Movie Popularity Ranking
-- Interactive User Interface
+* Movie Poster Integration using TMDB API
+* Fuzzy Movie Search
+* User Authentication System
+* Recommendation Evaluation Metrics (RMSE, MAE)
+* Deep Learning-Based Recommendations
+* Real-Time Recommendation Updates
+* Movie Popularity Ranking
+* Advanced Hybrid Weight Optimization
+* Interactive User Profiles
 
 ---
 
@@ -309,4 +351,4 @@ TOP PERSONALIZED RECOMMENDATIONS
 
 **VEGESNA MONIKA AISHWARYA**
 
-Developed as a Machine Learning and Recommendation Systems project using Python and Scikit-learn.
+Developed as a Machine Learning and Recommendation Systems project using Python, Scikit-learn, and Streamlit.
