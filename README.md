@@ -10,6 +10,13 @@ The hybrid approach improves recommendation quality by combining movie similarit
 
 ---
 
+## 🌐 Live Demo
+
+🚀 **Streamlit Application:**  
+[Click Here to Use the App](https://hybrid-movie-recommendation-system1.streamlit.app)
+
+---
+
 ## 🚀 Features
 
 - Content-Based Movie Recommendations
