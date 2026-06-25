@@ -4,64 +4,70 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
 
-# Load processed movie dataset
-movies = pd.read_csv(
-    "outputs/processed_movies.csv"
-)
+# =========================
+# LOAD DATA
+# =========================
+movies = pd.read_csv("outputs/processed_movies.csv")
 
-# Convert movie descriptions into TF-IDF vectors
+# Clean titles (VERY IMPORTANT for deployment)
+movies["title"] = movies["title"].astype(str).str.strip()
+movies["clean_title"] = movies["title"].str.lower().str.strip()
+
+
+# =========================
+# TF-IDF MATRIX
+# =========================
 tfidf = TfidfVectorizer(
     max_features=5000,
     stop_words="english"
 )
 
-tfidf_matrix = tfidf.fit_transform(
-    movies["tags"]
-)
+tfidf_matrix = tfidf.fit_transform(movies["tags"])
 
-# Compute cosine similarity between all movies
-similarity = cosine_similarity(
-    tfidf_matrix
-)
+# Cosine similarity matrix
+similarity = cosine_similarity(tfidf_matrix)
 
-# Map movie titles to dataframe indices
+
+# =========================
+# MOVIE INDEX MAP
+# =========================
 movie_indices = pd.Series(
-    movies.index.values,
-    index=movies["title"].str.lower()
+    movies.index,
+    index=movies["clean_title"]
 )
 
-movie_indices = movie_indices[
-    ~movie_indices.index.duplicated(
-        keep="first"
-    )
-]
+# Remove duplicates safely
+movie_indices = movie_indices[~movie_indices.index.duplicated(keep="first")]
 
 
-def recommend_with_scores(
-    movie_name,
-    top_n=10
-):
+# =========================
+# CONTENT BASED CORE
+# =========================
+def recommend_with_scores(movie_name, top_n=10):
     """
-    Returns recommended movies along with similarity scores.
+    Returns recommended movies with similarity scores.
     """
 
     movie_name = movie_name.strip().lower()
 
-    if movie_name not in movie_indices.index:
+    if movie_name not in movie_indices:
         return []
 
     movie_idx = movie_indices[movie_name]
 
-    # Handle duplicate movie titles
-    if isinstance(movie_idx, pd.Series):
-        movie_idx = movie_idx.iloc[0]
+    # safety check (important for cloud runtime)
+    if movie_idx is None or movie_idx >= len(similarity):
+        return []
 
-    similarity_scores = list(
-        enumerate(
-            similarity[movie_idx]
-        )
-    )
+    similarity_vector = similarity[movie_idx]
 
+    # Convert to safe Python floats
+    similarity_scores = []
+
+    for idx, score in enumerate(similarity_vector):
+        similarity_scores.append((idx, float(score)))
+
+    # Sort safely
     similarity_scores = sorted(
         similarity_scores,
         key=lambda x: x[1],
@@ -71,43 +77,32 @@ def recommend_with_scores(
     recommendations = []
 
     for index, score in similarity_scores:
-
         recommendations.append(
-            (
-                movies.iloc[index]["title"],
-                float(score)
-            )
+            (movies.iloc[index]["title"], score)
         )
 
     return recommendations
 
 
-def recommend(
-    movie_name,
-    top_n=10
-):
+# =========================
+# SIMPLE RECOMMEND
+# =========================
+def recommend(movie_name, top_n=10):
     """
-    Returns only movie titles.
+    Return only movie titles.
     """
 
-    recommendations = recommend_with_scores(
-        movie_name,
-        top_n
-    )
+    results = recommend_with_scores(movie_name, top_n)
 
-    return [
-        movie
-        for movie, _
-        in recommendations
-    ]
+    return [movie for movie, _ in results]
 
 
-def recommend_multiple_movies(
-    favorite_movies,
-    top_n=20
-):
+# =========================
+# MULTI-MOVIE RECOMMEND
+# =========================
+def recommend_multiple_movies(favorite_movies, top_n=20):
     """
-    Generate recommendations based on multiple favorite movies.
+    Combine recommendations from multiple movies.
     """
 
     movie_scores = {}
@@ -115,46 +110,22 @@ def recommend_multiple_movies(
 
     for movie in favorite_movies:
 
-        recommendations = recommend_with_scores(
-            movie,
-            top_n
-        )
+        recommendations = recommend_with_scores(movie, top_n)
 
-        for recommended_movie, score in recommendations:
+        for rec_movie, score in recommendations:
 
-            movie_scores[
-                recommended_movie
-            ] = movie_scores.get(
-                recommended_movie,
-                0
-            ) + score
-
-            movie_frequency[
-                recommended_movie
-            ] = movie_frequency.get(
-                recommended_movie,
-                0
-            ) + 1
+            movie_scores[rec_movie] = movie_scores.get(rec_movie, 0) + score
+            movie_frequency[rec_movie] = movie_frequency.get(rec_movie, 0) + 1
 
     final_scores = {}
 
     for movie in movie_scores:
 
-        average_score = (
-            movie_scores[movie]
-            / movie_frequency[movie]
-        )
+        avg_score = movie_scores[movie] / movie_frequency[movie]
 
-        # Boost movies appearing in recommendations
-        # of multiple favorite movies
-        frequency_bonus = (
-            movie_frequency[movie] - 1
-        ) * 0.15
+        frequency_bonus = (movie_frequency[movie] - 1) * 0.15
 
-        final_scores[movie] = (
-            average_score +
-            frequency_bonus
-        )
+        final_scores[movie] = avg_score + frequency_bonus
 
     ranked_movies = sorted(
         final_scores.items(),
@@ -165,109 +136,74 @@ def recommend_multiple_movies(
     return ranked_movies[:top_n]
 
 
-def boost_by_genres(
-    recommendations,
-    preferred_genres
-):
+# =========================
+# GENRE BOOSTING
+# =========================
+def boost_by_genres(recommendations, preferred_genres):
     """
-    Increase recommendation scores
-    if genres match user preferences.
+    Boost scores if genres match user preference.
     """
 
     preferred_genres = [
-        genre.strip().lower()
-        for genre in preferred_genres
+        g.strip().lower()
+        for g in preferred_genres
     ]
 
-    boosted_recommendations = []
+    boosted = []
 
     for movie, score in recommendations:
 
-        movie_row = movies[
-            movies["title"] == movie
-        ]
+        movie_row = movies[movies["title"] == movie]
 
         if movie_row.empty:
             continue
 
-        genres = ast.literal_eval(
-            movie_row.iloc[0]["genres"]
-        )
-
-        genres = [
-            genre.lower()
-            for genre in genres
-        ]
+        genres = ast.literal_eval(movie_row.iloc[0]["genres"])
+        genres = [g.lower() for g in genres]
 
         bonus = 0
 
-        for preferred_genre in preferred_genres:
-
-            if preferred_genre in genres:
+        for genre in preferred_genres:
+            if genre in genres:
                 bonus += 0.05
 
-        boosted_recommendations.append(
-            (
-                movie,
-                score + bonus
-            )
-        )
+        boosted.append((movie, score + bonus))
 
-    boosted_recommendations.sort(
-        key=lambda x: x[1],
-        reverse=True
-    )
-
-    return boosted_recommendations
+    return sorted(boosted, key=lambda x: x[1], reverse=True)
 
 
-def get_valid_movies(
-    movie_list
-):
+# =========================
+# VALID MOVIE CHECK
+# =========================
+def get_valid_movies(movie_list):
     """
-    Return only movies that exist in dataset.
+    Filter only movies that exist in dataset.
     """
 
-    return [
-        movie
-        for movie in movie_list
-        if movie.strip().lower()
-        in movie_indices.index
-    ]
+    valid_movies = []
+
+    for movie in movie_list:
+        clean = movie.strip().lower()
+
+        if clean in movie_indices:
+            valid_movies.append(movie.strip())
+
+    return valid_movies
 
 
+# =========================
+# TEST RUN
+# =========================
 if __name__ == "__main__":
 
-    favorite_movies = [
-        "Avatar",
-        "Interstellar",
-        "The Dark Knight"
-    ]
+    favorites = ["Avatar", "Interstellar", "The Dark Knight"]
 
-    preferred_genres = [
-        "Action",
-        "Science Fiction"
-    ]
+    genres = ["Action", "Science Fiction"]
 
-    recommendations = (
-        recommend_multiple_movies(
-            favorite_movies
-        )
-    )
+    recs = recommend_multiple_movies(favorites)
+    recs = boost_by_genres(recs, genres)
 
-    recommendations = (
-        boost_by_genres(
-            recommendations,
-            preferred_genres
-        )
-    )
+    print("\nPersonalized Recommendations:\n")
 
-    print(
-        "\nPersonalized Recommendations:\n"
-    )
-
-    for movie, score in recommendations:
-
-        print(
-            f"{movie} ({score:.3f})"
-        )
+    for movie, score in recs:
+        print(movie, round(score, 3))
